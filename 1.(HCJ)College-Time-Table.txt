@@ -1,0 +1,89 @@
+HTML:
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TY Time Table</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h2 class="text-center">TY Time Table</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Time Slot</th>
+            <th>Monday</th>
+            <th>Tuesday</th>
+            <th>Wednesday</th>
+            <th>Thursday</th>
+            <th>Friday</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>9:00 AM - 10:00 AM</td>
+            <td>Subject A<br />Faculty X</td>
+            <td>Subject B<br />Faculty Y</td>
+            <td>Subject C<br />Faculty Z</td>
+            <td>Subject D<br />Faculty W</td>
+            <td>Subject E<br />Faculty V</td>
+          </tr>
+          <tr>
+            <td>10:00 AM - 11:00 AM</td>
+            <td>Subject F<br />Faculty U</td>
+            <td>Subject G<br />Faculty T</td>
+            <td>Subject H<br />Faculty S</td>
+            <td>Subject I<br />Faculty R</td>
+            <td>Subject J<br />Faculty Q</td>
+          </tr>
+          <!-- Add more rows for each time slot -->
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
+
+CSS:
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f5f5f5;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    overflow: hidden;
+}
+
+.table th, .table td {
+    padding: 12px 8px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+

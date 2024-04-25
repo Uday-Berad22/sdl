@@ -1,0 +1,180 @@
+Certainly! Below is the structure and styling for a Toll Tax Management System:
+
+1. **index.php**:
+
+```php
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toll Tax Management System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Toll Tax Management System</h1>
+        
+        <div class="payment-form">
+            <h2>Pay Toll Tax</h2>
+            <form action="pay_tax.php" method="post">
+                <label for="vehicle_number">Vehicle Number:</label>
+                <input type="text" id="vehicle_number" name="vehicle_number" required><br>
+                <label for="amount">Amount:</label><br>
+                <input type="text" id="amount" name="amount" required><br>
+                <button type="submit">Pay Now</button>
+            </form>
+        </div>
+        
+        <div class="transaction-history">
+            <h2>Transaction History</h2>
+            <?php include 'transaction_history.php'; ?>
+        </div>
+    </div>
+</body>
+</html>
+```
+
+2. **styles.css**:
+
+```css
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
+    text-align: center;
+    color: #333;
+}
+
+.payment-form {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.payment-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.payment-form input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.payment-form button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.payment-form button:hover {
+    background-color: #0056b3;
+}
+
+.transaction-history {
+    border-top: 2px solid #007bff;
+    padding-top: 20px;
+}
+
+.transaction-history p {
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.transaction-history strong {
+    font-weight: bold;
+    color: #007bff;
+}
+```
+
+3. **pay_tax.php** (for processing payments):
+
+```php
+<?php
+$conn = mysqli_connect("localhost", "username", "password", "toll_tax_system");
+
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+$vehicle_number = $_POST['vehicle_number'];
+$amount = $_POST['amount'];
+
+$sql = "INSERT INTO transactions (vehicle_number, amount) VALUES ('$vehicle_number', '$amount')";
+
+if (mysqli_query($conn, $sql)) {
+    header("Location: index.php");
+} else {
+    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+}
+
+mysqli_close($conn);
+?>
+```
+
+4. **transaction_history.php** (to display transaction history):
+
+```php
+<?php
+$conn = mysqli_connect("localhost", "username", "password", "toll_tax_system");
+
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+$sql = "SELECT * FROM transactions";
+$result = mysqli_query($conn, $sql);
+
+if (mysqli_num_rows($result) > 0) {
+    while($row = mysqli_fetch_assoc($result)) {
+        echo "<p><strong>Vehicle Number:</strong> " . $row["vehicle_number"]. " - <strong>Amount:</strong> $" . $row["amount"]. "</p>";
+    }
+} else {
+    echo "No transactions";
+}
+
+mysqli_close($conn);
+?>
+```
+
+5. **database.sql** (SQL queries to create database and table):
+
+```sql
+CREATE DATABASE toll_tax_system;
+
+USE toll_tax_system;
+
+CREATE TABLE transactions (
+    id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    vehicle_number VARCHAR(20) NOT NULL,
+    amount DECIMAL(10, 2) NOT NULL,
+    payment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+```
+
+This setup provides a simple Toll Tax Management System with a clean and modern user interface. Users can pay toll tax and view transaction history easily.

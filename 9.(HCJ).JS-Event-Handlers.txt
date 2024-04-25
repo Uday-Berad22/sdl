@@ -1,0 +1,90 @@
+---> HTML
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event Handling Demo</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="container">
+  <h1>Event Handling Demo</h1>
+  <button id="clickMeButton">Click Me!</button>
+  <button id="hoverOverButton">Hover Over Me!</button>
+  <button id="doubleClickButton">Double Click Me!</button>
+  <button id="focusButton">Focus Me!</button>
+  <button id="contextMenuButton">Right Click Me!</button>
+  <p id="message"></p>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
+
+---> CSS 
+
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.container {
+  text-align: center;
+  margin-top: 50px;
+}
+
+button {
+  margin: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+
+---> JS
+
+// Function to handle the click event
+function handleClick() {
+  // Update the message paragraph text
+  document.getElementById('message').textContent = 'Button clicked!';
+}
+
+// Function to handle mouse over event
+function handleMouseOver() {
+  // Change button background color on mouse over
+  document.getElementById('hoverOverButton').style.backgroundColor = 'lightblue';
+}
+
+// Function to handle double click event
+function handleDoubleClick() {
+  // Update the message paragraph text
+  document.getElementById('message').textContent = 'Button double clicked!';
+}
+
+// Function to handle focus event
+function handleFocus() {
+  // Update the message paragraph text
+  document.getElementById('message').textContent = 'Button focused!';
+}
+
+// Function to handle contextmenu event (right click)
+function handleContextMenu(event) {
+  // Prevent default context menu
+  event.preventDefault();
+  // Update the message paragraph text
+  document.getElementById('message').textContent = 'Right click!';
+}
+
+// Add event listeners to the buttons
+document.getElementById('clickMeButton').addEventListener('click', handleClick);
+document.getElementById('hoverOverButton').addEventListener('mouseover', handleMouseOver);
+document.getElementById('doubleClickButton').addEventListener('dblclick', handleDoubleClick);
+document.getElementById('focusButton').addEventListener('focus', handleFocus);
+document.getElementById('contextMenuButton').addEventListener('contextmenu', handleContextMenu);

@@ -1,0 +1,185 @@
+Certainly! Here's a structure for a College Admission Management System using PHP and MySQL:
+
+1. **index.php**:
+
+```php
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Admission Management System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>College Admission Management System</h1>
+        
+        <div class="admission-form">
+            <h2>Apply for Admission</h2>
+            <form action="apply_admission.php" method="post">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required><br>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required><br>
+                <label for="course">Course:</label>
+                <input type="text" id="course" name="course" required><br>
+                <button type="submit">Apply Now</button>
+            </form>
+        </div>
+        
+        <div class="admission-list">
+            <h2>Admission Applications</h2>
+            <?php include 'admission_applications.php'; ?>
+        </div>
+    </div>
+</body>
+</html>
+```
+
+2. **styles.css**:
+
+```css
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
+    text-align: center;
+    color: #333;
+}
+
+.admission-form {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.admission-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.admission-form input[type="text"],
+.admission-form input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.admission-form button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.admission-form button:hover {
+    background-color: #0056b3;
+}
+
+.admission-list {
+    border-top: 2px solid #007bff;
+    padding-top: 20px;
+}
+
+.admission-list p {
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.admission-list strong {
+    font-weight: bold;
+    color: #007bff;
+}
+```
+
+3. **apply_admission.php** (for processing admission applications):
+
+```php
+<?php
+$conn = mysqli_connect("localhost", "username", "password", "admission_system");
+
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+$name = $_POST['name'];
+$email = $_POST['email'];
+$course = $_POST['course'];
+
+$sql = "INSERT INTO applications (name, email, course) VALUES ('$name', '$email', '$course')";
+
+if (mysqli_query($conn, $sql)) {
+    header("Location: index.php");
+} else {
+    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+}
+
+mysqli_close($conn);
+?>
+```
+
+4. **admission_applications.php** (to display admission applications):
+
+```php
+<?php
+$conn = mysqli_connect("localhost", "username", "password", "admission_system");
+
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+$sql = "SELECT * FROM applications";
+$result = mysqli_query($conn, $sql);
+
+if (mysqli_num_rows($result) > 0) {
+    while($row = mysqli_fetch_assoc($result)) {
+        echo "<p><strong>Name:</strong> " . $row["name"]. " - <strong>Email:</strong> " . $row["email"]. " - <strong>Course:</strong> " . $row["course"]. "</p>";
+    }
+} else {
+    echo "No admission applications";
+}
+
+mysqli_close($conn);
+?>
+```
+
+5. **database.sql** (SQL queries to create database and table):
+
+```sql
+CREATE DATABASE admission_system;
+
+USE admission_system;
+
+CREATE TABLE applications (
+    id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    course VARCHAR(100) NOT NULL,
+    application_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+```
+
+This setup provides a simple College Admission Management System where students can apply for admission and administrators can view the applications.

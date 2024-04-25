@@ -1,0 +1,246 @@
+HTML --->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Facebook Registration Form</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="script.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Facebook Registration Form</h2>
+        <form id="registrationForm" onsubmit="return validateForm()">
+            <div class="form-group">
+                <label for="firstName">First Name:</label>
+                <input type="text" id="firstName" name="firstName" onblur="validateFirstName()"
+                    onfocus="clearError('firstName')">
+                <span class="error" id="firstNameError"></span>
+            </div>
+            <div class="form-group">
+                <label for="lastName">Last Name:</label>
+                <input type="text" id="lastName" name="lastName" onblur="validateLastName()"
+                    onfocus="clearError('lastName')">
+                <span class="error" id="lastNameError"></span>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="text" id="email" name="email" onblur="validateEmail()" onfocus="clearError('email')">
+                <span class="error" id="emailError"></span>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" onblur="validatePassword()"
+                    onfocus="clearError('password')">
+                <span class="error" id="passwordError"></span>
+            </div>
+            <div class="form-group">
+                <label for="birthDate">Birthdate:</label>
+                <input type="date" id="birthDate" name="birthDate" onblur="validateBirthDate()"
+                    onfocus="clearError('birthDate')">
+                <span class="error" id="birthDateError"></span>
+            </div>
+            <div class="form-group">
+                <label>Gender:</label>
+                <input type="radio" id="genderMale" name="gender" value="male">
+                <label for="genderMale">Male</label>
+                <input type="radio" id="genderFemale" name="gender" value="female">
+                <label for="genderFemale">Female</label>
+                <span class="error" id="genderError"></span>
+            </div>
+            <div class="form-group">
+                <button type="submit">Register</button>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>
+
+CSS --->
+
+/* styles.css */
+body {
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  width: 40%;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="date"] {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  background-color: #002fff;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #1f64a0;
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+  display: none;
+}
+
+
+JavaScript --->
+
+// scripts.js
+function validateFirstName() {
+  var firstName = document.getElementById("firstName").value;
+  var error = document.getElementById("firstNameError");
+
+  if (firstName.trim() === "") {
+    error.textContent = "First name is required.";
+    error.style.display = "block";
+    return false;
+  } else if (!isNaN(firstName)) {
+    error.textContent = "First name cannot be numeric.";
+    error.style.display = "block";
+    return false;
+  } else {
+    error.style.display = "none";
+    return true;
+  }
+}
+
+function validateLastName() {
+  var lastName = document.getElementById("lastName").value;
+  var error = document.getElementById("lastNameError");
+
+  if (lastName.trim() === "") {
+    error.textContent = "Last name is required.";
+    error.style.display = "block";
+    return false;
+  } else if (!isNaN(lastName)) {
+    error.textContent = "Last name cannot be numeric.";
+    error.style.display = "block";
+    return false;
+  } else {
+    error.style.display = "none";
+    return true;
+  }
+}
+
+function validateEmail() {
+  var email = document.getElementById("email").value;
+  var error = document.getElementById("emailError");
+
+  // Email validation pattern
+  var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (email.trim() === "") {
+    error.textContent = "Email is required.";
+    error.style.display = "block";
+    return false;
+  } else if (!emailPattern.test(email)) {
+    error.textContent = "Enter a valid email address.";
+    error.style.display = "block";
+    return false;
+  } else {
+    error.style.display = "none";
+    return true;
+  }
+}
+
+function validatePassword() {
+  var password = document.getElementById("password").value;
+  var error = document.getElementById("passwordError");
+
+  if (password.trim() === "") {
+    error.textContent = "Password is required.";
+    error.style.display = "block";
+    return false;
+  } else if (password.length < 6) {
+    error.textContent = "Password must be at least 6 characters long.";
+    error.style.display = "block";
+    return false;
+  } else {
+    error.style.display = "none";
+    return true;
+  }
+}
+
+function validateBirthDate() {
+  var birthDate = document.getElementById("birthDate").value;
+  var error = document.getElementById("birthDateError");
+
+  if (birthDate.trim() === "") {
+    error.textContent = "Birthdate is required.";
+    error.style.display = "block";
+    return false;
+  } else {
+    error.style.display = "none";
+    return true;
+  }
+}
+
+function validateForm() {
+  var isFirstNameValid = validateFirstName();
+  var isLastNameValid = validateLastName();
+  var isEmailValid = validateEmail();
+  var isPasswordValid = validatePassword();
+  var isBirthDateValid = validateBirthDate();
+  var isGenderValid = validateGender();
+
+  return (
+    isFirstNameValid &&
+    isLastNameValid &&
+    isEmailValid &&
+    isPasswordValid &&
+    isBirthDateValid &&
+    isGenderValid
+  );
+}
+
+// Function to validate gender
+function validateGender() {
+  var genderMale = document.getElementById("genderMale").checked;
+  var genderFemale = document.getElementById("genderFemale").checked;
+  var error = document.getElementById("genderError");
+
+  if (!genderMale && !genderFemale) {
+    error.textContent = "Gender is required.";
+    error.style.display = "block";
+    return false;
+  } else {
+    error.style.display = "none";
+    return true;
+  }
+}
+
+// Function to clear error messages when the user focuses on an input field
+function clearError(inputId) {
+  var errorElement = document.getElementById(inputId + "Error");
+  errorElement.textContent = "";
+  errorElement.style.display = "none";
+}

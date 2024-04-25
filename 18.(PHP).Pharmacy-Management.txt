@@ -1,0 +1,180 @@
+Sure, here's a basic structure for a Pharmacy Management System using PHP and MySQL:
+
+1. **index.php**:
+
+```php
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pharmacy Management System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Pharmacy Management System</h1>
+        
+        <div class="add-medicine">
+            <h2>Add Medicine</h2>
+            <form action="add_medicine.php" method="post">
+                <label for="name">Medicine Name:</label>
+                <input type="text" id="name" name="name" required><br>
+                <label for="quantity">Quantity:</label><br>
+                <input type="number" id="quantity" name="quantity" required><br>
+                <button type="submit">Add</button>
+            </form>
+        </div>
+        
+        <div class="medicine-list">
+            <h2>Medicine Inventory</h2>
+            <?php include 'medicine_inventory.php'; ?>
+        </div>
+    </div>
+</body>
+</html>
+```
+
+2. **styles.css**:
+
+```css
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
+    text-align: center;
+    color: #333;
+}
+
+.add-medicine {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.add-medicine label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.add-medicine input[type="text"],
+.add-medicine input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.add-medicine button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.add-medicine button:hover {
+    background-color: #0056b3;
+}
+
+.medicine-list {
+    border-top: 2px solid #007bff;
+    padding-top: 20px;
+}
+
+.medicine-list p {
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.medicine-list strong {
+    font-weight: bold;
+    color: #007bff;
+}
+```
+
+3. **add_medicine.php** (for adding medicine to inventory):
+
+```php
+<?php
+$conn = mysqli_connect("localhost", "username", "password", "pharmacy_system");
+
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+$name = $_POST['name'];
+$quantity = $_POST['quantity'];
+
+$sql = "INSERT INTO medicines (name, quantity) VALUES ('$name', '$quantity')";
+
+if (mysqli_query($conn, $sql)) {
+    header("Location: index.php");
+} else {
+    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+}
+
+mysqli_close($conn);
+?>
+```
+
+4. **medicine_inventory.php** (to display medicine inventory):
+
+```php
+<?php
+$conn = mysqli_connect("localhost", "username", "password", "pharmacy_system");
+
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+$sql = "SELECT * FROM medicines";
+$result = mysqli_query($conn, $sql);
+
+if (mysqli_num_rows($result) > 0) {
+    while($row = mysqli_fetch_assoc($result)) {
+        echo "<p><strong>Medicine Name:</strong> " . $row["name"]. " - <strong>Quantity:</strong> " . $row["quantity"]. "</p>";
+    }
+} else {
+    echo "No medicines in inventory";
+}
+
+mysqli_close($conn);
+?>
+```
+
+5. **database.sql** (SQL queries to create database and table):
+
+```sql
+CREATE DATABASE pharmacy_system;
+
+USE pharmacy_system;
+
+CREATE TABLE medicines (
+    id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    quantity INT(6) NOT NULL
+);
+```
+
+This setup provides a simple Pharmacy Management System where you can add medicines to the inventory and view the current stock.

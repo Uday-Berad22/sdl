@@ -1,0 +1,137 @@
+Index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JS Demo</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="container">
+  <h1>JavaScript Demo</h1>
+  
+  <!-- Problem 1: Display a button to demonstrate JS alert -->
+  <div class="problem">
+    <p><strong>Problem 1:</strong> Create a button to demonstrate JS alert.</p>
+    <button id="alertButton">Show Alert</button>
+  </div>
+  
+  <!-- Problem 2: Calculate average number of weeks in human lifetime -->
+  <div class="problem">
+    <p><strong>Problem 2:</strong> Calculate average number of weeks in human lifetime.</p>
+    <label for="ageInput">Enter your age:</label>
+    <input type="number" id="ageInput">
+    <button id="calculateButton">Calculate Weeks</button>
+    <p id="averageWeeks"></p>
+  </div>
+  
+  <!-- Problem 3: Store and display user-entered string -->
+  <div class="problem">
+    <p><strong>Problem 3:</strong> Store and display user-entered string.</p>
+    <label for="stringInput">Enter a string:</label>
+    <input type="text" id="stringInput">
+    <button id="stringButton">Submit</button>
+    <p id="userString"></p>
+  </div>
+  
+  <!-- Problem 4: Display time of the day -->
+  <div class="problem">
+    <p><strong>Problem 4:</strong> Display time of the day (morning, afternoon, night).</p>
+    <p id="timeOfDay"></p>
+  </div>
+  
+  <!-- Problem 5: Display current time -->
+  <div class="problem">
+    <p><strong>Problem 5:</strong> Display current time.</p>
+    <p id="currentTime"></p>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
+
+CSS--->
+
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.container {
+  text-align: center;
+}
+
+.problem {
+  margin-bottom: 20px;
+}
+
+button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+
+Javascript --->
+
+// Function to show an alert
+document.getElementById('alertButton').addEventListener('click', function() {
+  alert('Hello! This is an alert.');
+});
+
+// Function to calculate average number of weeks in human lifetime
+document.getElementById('calculateButton').addEventListener('click', function() {
+  const age = parseInt(document.getElementById('ageInput').value);
+  if (isNaN(age) || age <= 0) {
+    alert('Please enter a valid age.');
+    return;
+  }
+  const averageWeeks = age * 52;
+  document.getElementById('averageWeeks').textContent = `Average weeks in human lifetime: ${averageWeeks}`;
+});
+
+// Function to store and display user-entered string
+document.getElementById('stringButton').addEventListener('click', function() {
+  const userString = document.getElementById('stringInput').value;
+  document.getElementById('userString').textContent = `The string entered by you is: ${userString}`;
+});
+
+// Function to determine time of the day
+function getTimeOfDay() {
+  const now = new Date();
+  const currentHour = now.getHours();
+  let timeOfDay;
+
+  if (currentHour < 12) {
+    timeOfDay = 'Morning';
+  } else if (currentHour < 18) {
+    timeOfDay = 'Afternoon';
+  } else {
+    timeOfDay = 'Night';
+  }
+
+  return timeOfDay;
+}
+
+// Function to display current time
+function getCurrentTime() {
+  const now = new Date();
+  const hours = now.getHours();
+  const minutes = now.getMinutes();
+  const seconds = now.getSeconds();
+
+  return `${hours}:${minutes}:${seconds}`;
+}
+
+// Display time of the day and current time
+document.getElementById('timeOfDay').textContent = `Time of the day: ${getTimeOfDay()}`;
+document.getElementById('currentTime').textContent = `Current time: ${getCurrentTime()}`;

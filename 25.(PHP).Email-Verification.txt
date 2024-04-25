@@ -1,0 +1,208 @@
+Sure, here's the revised code with the added features:
+
+index.php:
+```php
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verification</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Email Verification</h1>
+        <h2>Register Email</h2>
+        <form action="register_email.php" method="POST">
+            <input type="email" name="email" placeholder="Enter your email" required>
+            <button type="submit">Register</button>
+        </form>
+        <h2>Check Email</h2>
+        <form action="check_email.php" method="POST">
+            <input type="email" name="check_email" placeholder="Enter email to check" required>
+            <button type="submit">Check</button>
+        </form>
+        <button onclick="displayAll()">Display All</button>
+        <div id="emails-container" class="emails-container">
+            <!-- Email list will be displayed here -->
+        </div>
+    </div>
+
+    <script>
+        function displayAll() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("emails-container").innerHTML = this.responseText;
+                }
+            };
+            xhttp.open("GET", "display_emails.php", true);
+            xhttp.send();
+        }
+    </script>
+</body>
+</html>
+```
+
+register_email.php:
+```php
+<?php
+// Database connection
+$conn = mysqli_connect("localhost", "root", "", "bookstore");
+
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+// Get form data
+$email = $_POST['email'];
+
+// Check if email exists
+$sql_check = "SELECT * FROM emails WHERE email = '$email'";
+$result_check = mysqli_query($conn, $sql_check);
+
+if (mysqli_num_rows($result_check) > 0) {
+    echo "Email already registered.";
+} else {
+    // Insert email into database
+    $sql_insert = "INSERT INTO emails (email) VALUES ('$email')";
+    if (mysqli_query($conn, $sql_insert)) {
+        echo "Email registered successfully";
+    } else {
+        echo "Error: " . $sql_insert . "<br>" . mysqli_error($conn);
+    }
+}
+
+mysqli_close($conn);
+?>
+```
+
+check_email.php:
+```php
+<?php
+// Database connection
+$conn = mysqli_connect("localhost", "root", "", "bookstore");
+
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+// Get form data
+$check_email = $_POST['check_email'];
+
+// Check if email exists
+$sql_check = "SELECT * FROM emails WHERE email = '$check_email'";
+$result_check = mysqli_query($conn, $sql_check);
+
+if (mysqli_num_rows($result_check) > 0) {
+    echo "Email exists in the database.";
+} else {
+    echo "Email does not exist in the database.";
+}
+
+mysqli_close($conn);
+?>
+```
+
+display_emails.php:
+```php
+<?php
+// Database connection
+$conn = mysqli_connect("localhost", "root", "", "bookstore");
+
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+// Retrieve emails from database
+$sql = "SELECT * FROM emails";
+$result = mysqli_query($conn, $sql);
+
+// Display emails
+if (mysqli_num_rows($result) > 0) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        echo "<p>" . $row['email'] . "</p>";
+    }
+} else {
+    echo "0 results";
+}
+
+mysqli_close($conn);
+?>
+```
+
+styles.css:
+```css
+/* styles.css */
+
+/* Global styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+input[type="email"], button {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type="email"] {
+    width: calc(100% - 22px); /* Adjust for padding and border */
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.emails-container {
+    margin-top: 10px;
+}
+
+.emails-container p {
+    margin: 5px 0;
+}
+```
+
+database.sql:
+```sql
+-- CREATE DATABASE bookstore;
+
+USE bookstore;
+
+CREATE TABLE emails (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) NOT NULL
+);
+```
+
+This code now allows users to register their email addresses, check if an email exists in the database, and display all registered emails. It also includes a button to display all registered emails on the webpage.

@@ -1,0 +1,120 @@
+HTML:
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Gmail Registration Form</title>
+	<link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+	<div class="container">
+		<h2 class="text-center">Create Your Google Account</h2>
+		<form id="registrationForm" onsubmit="return validateForm()">
+			<label for="firstName">First Name:</label>
+			<input type="text" id="firstName" name="firstName" required>
+			<br>
+			<label for="lastName">Last Name:</label>
+			<input type="text" id="lastName" name="lastName" required>
+			<br>
+			<label for="email">Email:</label>
+			<input type="email" id="email" name="email" required>
+			<br>
+			<label for="password">Create a password:</label>
+			<input type="password" id="password" name="password" required>
+			<br>
+			<label for="confirmPassword">Confirm your password:</label>
+			<input type="password" id="confirmPassword" name="confirmPassword" required>
+			<br>
+			<input type="submit" value="Next">
+		</form>
+	</div>
+	<script src="script.js"></script>
+</body>
+
+</html>
+
+CSS:
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f5f5f5;
+}
+
+.container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 5px;
+}
+
+input {
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 3px;
+    border: 1px solid #ddd;
+}
+
+input[type="submit"] {
+    background-color: #4285f4;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #3367d6;
+}
+
+JS:
+function validateForm() {
+    var firstName = document.getElementById("firstName").value.trim();
+    var lastName = document.getElementById("lastName").value.trim();
+    var email = document.getElementById("email").value.trim();
+    var password = document.getElementById("password").value.trim();
+    var confirmPassword = document.getElementById("confirmPassword").value.trim();
+
+    var nameRegex = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
+    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    var passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
+
+    if (!nameRegex.test(firstName)) {
+        alert("Please enter a valid first name");
+        return false;
+    }
+
+    if (!nameRegex.test(lastName)) {
+        alert("Please enter a valid last name");
+        return false;
+    }
+
+    if (!emailRegex.test(email)) {
+        alert("Please enter a valid email address");
+        return false;
+    }
+
+    if (!passwordRegex.test(password)) {
+        alert("Password must be at least 8 characters long and contain at least one digit, one lowercase letter, and one uppercase letter");
+        return false;
+    }
+
+    if (password !== confirmPassword) {
+        alert("Passwords do not match");
+        return false;
+    }
+
+    return true;
+}

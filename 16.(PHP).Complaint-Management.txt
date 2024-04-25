@@ -1,0 +1,179 @@
+Sure! Let's enhance the appearance of the application with a more modern and visually appealing design:
+
+With these changes, the application will have a cleaner and more modern look, with improved readability and better styling for the form and complaint list.
+
+Sure, here's a simple structure for a Complaint Management System using PHP and MySQL:
+
+1.Index.php: This file will serve as the main entry point for the application. It will display a form for submitting complaints and also display a list of existing complaints.
+
+```php
+1. **index.php**:
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complaint Management System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Complaint Management System</h1>
+        
+        <div class="complaint-form">
+            <h2>Submit a Complaint</h2>
+            <form action="submit_complaint.php" method="post">
+                <label for="name">Your Name:</label>
+                <input type="text" id="name" name="name" required><br>
+                <label for="complaint">Complaint:</label><br>
+                <textarea id="complaint" name="complaint" rows="4" required></textarea><br>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+        
+        <div class="complaint-list">
+            <h2>Existing Complaints</h2>
+            <?php include 'list_complaints.php'; ?>
+        </div>
+    </div>
+</body>
+</html>
+
+2. **submit_complaint.php**: This file will handle the submission of complaints and insert them into the database.
+
+<?php
+$conn = mysqli_connect("localhost", "root", "", "complaint_system");
+
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+$name = $_POST['name'];
+$complaint = $_POST['complaint'];
+
+$sql = "INSERT INTO complaints (name, complaint) VALUES ('$name', '$complaint')";
+
+if (mysqli_query($conn, $sql)) {
+    header("Location: index.php");
+} else {
+    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+}
+
+mysqli_close($conn);
+?>
+
+
+3. **list_complaints.php**: This file will retrieve and display the existing complaints from the database.
+
+```php
+<?php
+$conn = mysqli_connect("localhost", "root", "", "complaint_system");
+
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+$sql = "SELECT * FROM complaints";
+$result = mysqli_query($conn, $sql);
+
+if (mysqli_num_rows($result) > 0) {
+    while($row = mysqli_fetch_assoc($result)) {
+        echo "<strong>Name:</strong> " . $row["name"]. " - <strong>Complaint:</strong> " . $row["complaint"]. "<br>";
+    }
+} else {
+    echo "No complaints";
+}
+
+mysqli_close($conn);
+?>
+```
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
+    text-align: center;
+    color: #333;
+}
+
+.complaint-form {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.complaint-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.complaint-form input[type="text"],
+.complaint-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.complaint-form button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.complaint-form button:hover {
+    background-color: #0056b3;
+}
+
+.complaint-list {
+    border-top: 2px solid #007bff;
+    padding-top: 20px;
+}
+
+.complaint-list p {
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.complaint-list strong {
+    font-weight: bold;
+    color: #007bff;
+}
+
+5. **database.sql**: This file contains the SQL queries to create the necessary database and table.
+
+```sql
+CREATE DATABASE complaint_system;
+
+USE complaint_system;
+
+CREATE TABLE complaints (
+    id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    complaint TEXT NOT NULL,
+    submission_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+```
+This is a basic setup for a Complaint Management System. You can further enhance it by adding features like user authentication, status tracking, and more detailed complaint handling.

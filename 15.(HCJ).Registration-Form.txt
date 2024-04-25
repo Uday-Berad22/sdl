@@ -1,0 +1,169 @@
+html --->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registration Form</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Registration Form</h2>
+    <form id="registrationForm" onsubmit="return validateForm()">
+      <div class="form-group">
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" name="firstName" placeholder="Enter your first name" required>
+        <span id="firstNameError" class="error"></span>
+      </div>
+      <div class="form-group">
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="lastName" placeholder="Enter your last name" required>
+        <span id="lastNameError" class="error"></span>
+      </div>
+      <div class="form-group">
+        <label for="organization">Organization:</label>
+        <input type="text" id="organization" name="organization" placeholder="Enter your organization">
+      </div>
+      <div class="form-group">
+        <label for="hobbies">Hobbies:</label>
+        <textarea id="hobbies" name="hobbies" placeholder="Enter your hobbies"></textarea>
+        <span id="hobbiesError" class="error"></span>
+      </div>
+      <button type="submit">Register</button>
+    </form>
+    <div id="registrationDetails" class="hidden">
+      <h2>Registration Details</h2>
+      <p>First Name: <span id="firstNameDisplay"></span></p>
+      <p>Last Name: <span id="lastNameDisplay"></span></p>
+      <p>Organization: <span id="organizationDisplay"></span></p>
+      <p>Hobbies: <span id="hobbiesDisplay"></span></p>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
+
+css -->
+
+.container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  h2 {
+    color: #333;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  label {
+    display: block;
+    font-weight: bold;
+    text-align: left;
+  }
+  
+  input[type="text"],
+  textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  button {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+  
+  .error {
+    color: red;
+    font-size: 14px;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+javascript --->
+
+function validateForm() {
+    var firstName = document.getElementById('firstName').value.trim();
+    var lastName = document.getElementById('lastName').value.trim();
+    var hobbies = document.getElementById('hobbies').value.trim();
+  var organization = document.getElementById('organization').value.trim(); // Retrieve organization value
+
+  
+    var firstNameError = document.getElementById('firstNameError');
+    var lastNameError = document.getElementById('lastNameError');
+    var hobbiesError = document.getElementById('hobbiesError');
+  
+    // Reset error messages
+    firstNameError.textContent = '';
+    lastNameError.textContent = '';
+    hobbiesError.textContent = '';
+  
+    var isValid = true;
+  
+    // Validate first name
+    if (firstName === '') {
+      firstNameError.textContent = 'First name is required';
+      isValid = false;
+    }
+  
+    // Validate last name
+    if (lastName === '') {
+      lastNameError.textContent = 'Last name is required';
+      isValid = false;
+    }
+  
+    // Validate hobbies
+    if (hobbies === '') {
+      hobbiesError.textContent = 'Hobbies are required';
+      isValid = false;
+    }
+  
+    if (!isValid) {
+      return false;
+    }
+  
+    // Display registration details after successful validation
+    displayRegistrationDetails(firstName, lastName, organization, hobbies);
+    return false; // Prevent form submission
+  }
+  
+  function displayRegistrationDetails(firstName, lastName, organization, hobbies) {
+    var firstNameDisplay = document.getElementById('firstNameDisplay');
+    var lastNameDisplay = document.getElementById('lastNameDisplay');
+    var organizationDisplay = document.getElementById('organizationDisplay');
+    var hobbiesDisplay = document.getElementById('hobbiesDisplay');
+
+    // Display registration details
+    firstNameDisplay.textContent = firstName;
+    lastNameDisplay.textContent = lastName;
+    organizationDisplay.textContent = organization || 'N/A'; // Display 'N/A' if organization is not provided
+    hobbiesDisplay.textContent = hobbies;
+    
+    // Hide registration form and display registration details
+    document.getElementById('registrationForm').classList.add('hidden');
+    document.getElementById('registrationDetails').classList.remove('hidden');
+  }  

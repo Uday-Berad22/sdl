@@ -1,0 +1,21 @@
+> sudo apt install git 
+> apt-get install git-all
+> git clone https://github/Uday-Berad22/sdl
+OR
+> git clone https://github/Sushant-Bansode/sdl
+> code .
+
+
+> sudo chmod +x path_of_run_file_storedin_downloads
+
+> sudo ./path_of_run_file_storedin_downloads
+
+> sudo service apache2 stop
+> sudo service mysql stop
+
+> sudo su
+> chmod -R 777/opt/lampp/htdocs
+
+>localhost/phymyadmin
+
+> git rm -r
